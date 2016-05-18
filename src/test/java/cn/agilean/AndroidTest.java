@@ -48,6 +48,7 @@ public class AndroidTest {
         el.click();
         List<WebElement> els = driver.findElementsByClassName("android.widget.TextView");
         assertEquals("Activity", els.get(2).getText());
+
     }
 
 }

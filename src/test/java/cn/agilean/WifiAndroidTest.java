@@ -2,9 +2,7 @@ package cn.agilean;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -17,6 +15,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class WifiAndroidTest {
 
@@ -24,6 +23,7 @@ public class WifiAndroidTest {
 
     @Before
     public void setUp() throws Exception {
+        System.out.println("test case method start");
         File classpathRoot = new File(System.getProperty("user.dir"));
         File appDir = new File(classpathRoot, "apps");
         File app = new File(appDir, "PINGAN_WIFI_ANDROID.apk");
@@ -39,6 +39,7 @@ public class WifiAndroidTest {
 
     @After
     public void tearDown() throws Exception {
+        System.out.println("test case method end");
         driver.quit();
     }
 
@@ -79,5 +80,40 @@ public class WifiAndroidTest {
         wait.until(ExpectedConditions.visibilityOf(els.get(0)));
         //assertEquals("Activity", els.get(2).getText());
     }
+    @Test
+    public void testWifiListView(){
+        WebDriverWait wait = new WebDriverWait(driver, 5);
 
+        WebElement el = driver.findElement(By.name("立即体验"));
+        assertEquals("立即体验", el.getText());
+        el.click();
+
+        el = driver.findElement(By.name("WiFi"));
+        assertEquals("WiFi", el.getText());
+        el.click();
+
+        el = driver.findElement(By.className("android.widget.ListView"));
+        List<WebElement> els = el.findElements(By.className("android.widget.RelativeLayout"));
+        wait.until(ExpectedConditions.visibilityOf(el));
+        System.out.println("wifiList.size():"+els.size());
+        assertTrue(els.size() > 2);
+    }
+    @Test
+    public void testFindNewsListView() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+
+        WebElement el = driver.findElement(By.name("立即体验"));
+        assertEquals("立即体验", el.getText());
+        el.click();
+
+        el = driver.findElement(By.name("发现"));
+        assertEquals("发现", el.getText());
+        el.click();
+
+        el = driver.findElement(By.className("android.widget.ListView"));
+        List<WebElement> els = el.findElements(By.className("android.widget.RelativeLayout"));
+        wait.until(ExpectedConditions.visibilityOf(el));
+        System.out.println("newsList.size():"+els.size());
+        assertTrue(els.size() > 0);
+    }
 }
